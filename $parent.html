@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/knockout-3.3.0.js"></script>
+</head>
+<body>
+	<div data-bind="foreach:List">
+		<div>
+			<span data-bind="text:ID">ID</span>
+			<span data-bind="text:Name">Name</span>
+			<div data-bind="foreach:phones">
+				<span data-bind="text:Number">5002-65-966</span>
+				<button data-bind=click:function(m,e){$root.CLikcMe(m,e,$parent)}>ME</button>
+			</div>
+			<button data-bind="click:$root.AddNew">BUTTON</button>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+	$(function () {
+		function Vm() {
+			this.AddNew = function (m,e) {
+				console.log(m);
+			};
+			this.CLikcMe = function(m,e,parent) {
+				console.log(m,'m2',parent)
+			}
+		
+			var list = [
+				{
+					ID: "0001",
+					Name: "NAme1",
+					phones: [
+						{
+							Number: "100-120-330"
+						},
+						{
+							Number: "300-210-000"
+						}
+					]
+				},
+				{
+					ID: "0002",
+					Name: "NAme2",
+					phones: [
+						{
+							Number: "100-120-332"
+						},
+						{
+							Number: "300-210-002"
+						}
+					]
+				},
+				{
+					ID: "0003",
+					Name: "NAme3",
+					phones: [
+						{
+							Number: "100-120-333"
+						},
+						{
+							Number: "300-210-003"
+						}
+					]
+				},
+				{
+					ID: "0004",
+					Name: "NAme4",
+					phones: [
+						{
+							Number: "100-120-334"
+						},
+						{
+							Number: "300-210-004"
+						}
+					]
+				},
+				{
+					ID: "0005",
+					Name: "NAme5",
+					phones: [
+						{
+							Number: "100-120-335"
+						},
+						{
+							Number: "300-210-005"
+						}
+					]
+				},
+				{
+					ID: "0006",
+					Name: "NAme6",
+					phones: [
+						{
+							Number: "100-120-336"
+						},
+						{
+							Number: "300-210-006"
+						}
+					]
+				},
+				{
+					ID: "0007",
+					Name: "NAme7",
+					phones: [
+						{
+							Number: "100-120-337"
+						},
+						{
+							Number: "300-210-007"
+						}
+					]
+				},
+				{
+					ID: "0008",
+					Name: "NAme8",
+					phones: [
+						{
+							Number: "100-120-338"
+						},
+						{
+							Number: "300-210-008"
+						}
+					]
+				}
+			]
+			console.log(list)
+			this.List = ko.observableArray([]);
+			this.List(list);
+			console.log(this.List(),list)
+		}
+		var vim = new Vm();
+		ko.applyBindings(vim);
+	})
+</script>
