@@ -1,0 +1,1223 @@
+<div id="{{.GUID}}">
+	<div>
+		<div class="nav-title">
+			<span class="fs14 clr22">商品信息</span>
+		</div>
+		<div class="clearfix" style="max-width:1500px;">
+			<!-- 上传主图 -->
+			<div class="right" style="width:50%;">
+				<div class="imgupload-widgets imgupload-wh160">
+					<a data-bind="style:{'background':CtrlData.AttrMainImg().imgdata()}" class="img" style="background:url();border:1px solid #d2d2d2;width:160px;height:160px;"></a>
+					<input data-bind="event:{change:EventUploadMainImg}" accept="image/*" type="file">
+				</div>
+				<div class="mt10">
+					<div class="clra0"><span class="clra0 mr5">■</span>仅支持jpg、jpeg、png格式；</div>
+					<div class="clra0 mt5"><span class="clra0 mr5">■</span>图片大小500KB以下，推荐分辨率600*600。；</div>
+				</div>
+			</div>
+			<!-- 商品信息 -->
+			<div class="left" style="width:50%;">
+				<!-- 商品编号 -->
+				<div class="input-widgets input-w219">
+					<span class="title">
+						<span>商品编号：</span>
+					</span>
+					<div class="input-div">
+						<input data-bind="textInput:CtrlData.AttrGoods().Code,enable:!CtrlView.AttrIsEdit()" type="text"/>
+					</div>
+				</div>
+				<!-- 商品类目 -->
+				<div class="select-widgets clearfix">
+					<span class="title">
+						<span>商品类目：</span>
+					</span>
+					<div class="select-group">
+						<div class="select-box s-w219">
+							<div class="box" data-bind="click:function(){this.CtrlView.AttrShowLomView(this.CtrlView.AttrShowLomView()?false:true)}">
+								<span class="right i-arrowbtn" title="打开"></span>
+								<div class="overflow-h">
+									<span class="name" data-bind="text:CtrlData.AttrSelLom().Name">显示文字</span>
+								</div>
+							</div>
+							<div class="pop" data-bind="visible:CtrlView.AttrShowLomView()" style="display:none;">
+								<div data-bind="attr:{id:CtrlTemp.CtrlLomID}"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 商品名称 -->
+				<div class="input-widgets input-w219">
+					<span class="title">
+						<span>商品名称：</span>
+					</span>
+					<div class="input-div">
+						<input data-bind="textInput:CtrlData.AttrGoods().Name" type="text"/>
+					</div>
+				</div>
+				<!-- 商品品牌： -->
+				<div class="select-widgets clearfix">
+					<span class="title">
+						<span>品牌：</span>
+					</span>
+					<div class="select-group">
+						<div class="select-box s-w219">
+							<div class="box" data-bind="click:function(){this.CtrlView.AttrShowBrandView(this.CtrlView.AttrShowBrandView()?false:true)}">
+								<span class="right i-arrowbtn" title="打开"></span>
+								<div class="overflow-h">
+									<span class="name" data-bind="text:CtrlData.AttrSelBrand().Name">显示文字</span>
+								</div>
+							</div>
+							<div class="pop" data-bind="visible:CtrlView.AttrShowBrandView()" style="display:none;">
+								<div data-bind="foreach:CtrlData.ListBrand">
+									<div data-bind="visible:$.inArray($data.CategoryID.ID,$root.CtrlData.ListSelCatePID())!=-1,text:$data.Name,click:$root.EventSelBrand" class="item"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 基本单位 -->
+				<div class="select-widgets clearfix">
+					<span class="title">
+						<span>基本单位：</span>
+					</span>
+					<div class="select-group">
+						<div class="select-box s-w219">
+							<div class="box" data-bind="click:function(){this.CtrlView.AttrShowUnitsView(this.CtrlView.AttrShowUnitsView()?false:true)}">
+								<span class="right i-arrowbtn" title="打开"></span>
+								<div class="overflow-h">
+									<span class="name" data-bind="text:CtrlData.AttrSelUnits().Name">显示文字</span>
+								</div>
+							</div>
+							<div class="pop" data-bind="visible:CtrlView.AttrShowUnitsView()"  style="display:none;">
+								<div  data-bind="foreach:CtrlData.ListUnits">
+									<div class="item" data-bind="text:$data.Name,click:$root.EventSelUnits"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 副单位 -->
+				<div data-bind="visible:CtrlData.ListFuUnits().length>0,foreach:CtrlData.ListFuUnits">
+					<div class="select-widgets clearfix">
+						<span class="title">
+				    		<button data-bind="click:$root.EventRemoveFuAttr" class="i-c-delbtn mr5" title="删除" style="vertical-align:-0.5ex"></button>
+							<span>副单位：</span>
+						</span>
+						<div class="select-group">
+							<div class="select-box left s-w219">
+								<div class="box">
+									<span class="right i-arrowbtn" data-bind="click:$root.EventShowFuAttr" title="打开"></span>
+									<div class="overflow-h">
+										<span class="name" data-bind="text:$data.sel().Name">显示文字</span>
+									</div>
+								</div>
+								<div class="pop" data-bind="visible:$data.show()==1,foreach:$data.attrs" style="display:none;">
+									<div class="item" data-bind="click:function(m,e){$root.EventSelFuAttr(m,e,$parent)},text:$data.Name"></div>
+								</div>
+							</div>
+				    		<span class="left block mr10 mt5">=</span>
+				    		<input data-bind="textInput:$data.sel().Rate" type="text" class="normal-input left" style="width:50px; text-align:center;"/>
+				    		<span data-bind="text:$data.attr.Name" class="left ml10 mt5">盒</span>
+						</div>
+					</div>
+				</div>
+				<div class="l-add-unitbtn">
+					<button data-bind="click:EventAddFuUnit" class="lightgraybtn btn-widgets">增加副单位</button>
+				</div>
+				<div class="input-widgets" style="display:none;">
+					<span class="title left clr22">
+						<span>商品说明：</span>
+					</span>
+					<div class="input-div">
+						<input data-bind="textInput:CtrlData.AttrGoods().Description" type="text" placeholder="请输入商品说明">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="nav-title">
+			<span class="i-pullbtn right fs16" data-bind="click:function(m,e){if(this.CtrlData.AttrSelLom().Name!=undefined){$('#'+this.CtrlTemp.CtrlAttrID).slideToggle();}}">></span>
+			<span class="fs14 clr22">商品属性</span>
+			<!--  <button data-bind="click:function(m,e){if(this.CtrlData.AttrSelLom().Name!=undefined){$('#'+this.CtrlTemp.CtrlAttrID).slideToggle();}}" class="pulloutbtn" style='bottom:213px;'></button>-->
+				
+			<!--<button style="margin-left:30px" data-bind="visible:$root.CtrlData.CustomAttr.CategoryID()!='',click:$root.EventAddCustomAttr" class="lightgraybtn btn-widgets">自定义属性</button>-->
+		</div>
+		<!-- 商品属性 -->
+		<div class="v4-goods-overflow">
+			<div data-bind="attr:{id:CtrlTemp.CtrlAttrID}" style="display:none;">
+		</div>
+			
+		</div>
+		<!-- 商品主图 -->
+		<div>
+			<div class="nav-title">
+				<span class="fs14 clr22">商品图片</span>
+			</div>
+			<div class="upload-img clearfix">
+				<div class="upload-img-div" style="margin-left:23px;">
+					<div class="clearfix">
+						<div data-bind="foreach:CtrlData.ListImgs" >
+							<div class="v4-question-apply-imglist left">
+								<div class="img-div">
+									<a class="image-normal mr10 mb10 left" data-bind="style:{'background-image':$data.imgdata()}" style="background-image:url();width:100px;height:100px;"></a>
+									<button data-bind="click:$root.EventRemoveImg,clickBubble:false" type="button" class="i-c-graydel" title="删除"></button>
+								</div>
+							</div>
+						</div>
+						<div data-bind="visible:CtrlData.ListImgs().length<7" class="left relative">
+							<input data-bind="event:{change:EventUploadImg},attr:{id:CtrlTemp.CtrlImgID}" multiple="multiple" type="file" accept="image/*"  style="display:none;" >
+							<div data-bind="click:EventAddUploadImg" class="upload-img-add" >
+								<span class="img-add-img" style="margin-top:0px;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="mt10">
+						<div class="clr77"><span class="clrc8 mr5">■</span>仅支持jpg、jpeg、png格式；</div>
+						<div class="clr77 mt5"><span class="clrc8 mr5">■</span>图片大小500KB以下，推荐分辨率600*600。；</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="nav-title">
+			<span class="fs14 clr22">商品描述</span>
+		</div>
+		<div class="plr15">
+			<div class="textarea-widgets">
+				<div class="textarea-div">
+					<textarea maxlength="2000"  data-bind="textInput:CtrlData.AttrGoods().Description" style="height:120px;"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="nav-title">
+			<span class="fs14 clr22">商品规格</span>
+		</div>
+		<!-- 商品规格 -->
+		<div data-bind="attr:{id:CtrlTemp.CtrlSkuID}">
+		
+		</div>
+		<!-- 商品状态 -->
+		<div>
+			<div class="nav-title">
+				<span class="fs14 clr22">商品状态</span>
+			</div> 
+			<div class="radio-widgets">
+				<span class="title left clr22 block mr20 txt-right" style="width:100px;margin-top:0;">
+					<span>商品状态：</span>
+				</span>
+				<div class="overflow-h">
+					<div class="mr20 left">
+						<span data-type="0" data-bind="click:EventSwitchEnable,css:{'radio-out':CtrlView.AttrGoodsEnableView()==1,'radio-on':CtrlView.AttrGoodsEnableView()==0}" class="radio-out radio-on"></span>
+						<span>上架</span>
+					</div>
+					<div class="left">
+						<span data-type="1" data-bind="click:EventSwitchEnable,css:{'radio-out':CtrlView.AttrGoodsEnableView()==0,'radio-on':CtrlView.AttrGoodsEnableView()==1}"  class="radio-out radio-on"></span>
+						<span>下架</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 保存按钮 -->
+		<div class="l-act-sumbitbtn">
+			<button class="widgets-btn bluebtn" data-bind="click:EventSave">保存</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+	//$(function(){
+		/*商品设计模块:by yzy at 2016.08.23*/
+		var ctrl = $('#{{.GUID}}');
+		function Module_Manage1_Store_Goods_Set(){
+			this.AttrDtd={
+				DtdAttr:new $.Deferred(),
+				DtdSku:new $.Deferred(),
+			}
+			this.CtrlConf={
+				AttrBrandLimit:1000,
+				AttrUnitsLimit:1000,
+				AttrGoodsLimit:20,
+			};
+			this.CtrlTemp={
+				CtrlAttrID:tone.sys.guid(),
+				CtrlSkuID:tone.sys.guid(),
+				CtrlLomID:tone.sys.guid(),
+				CtrlImgID:tone.sys.guid(),
+			};
+			this.CtrlData={
+				ListRemoveImg:ko.observableArray([]),
+				ListBrand:ko.observableArray([]),
+				ListUnits:ko.observableArray([]),
+				ListImgs:ko.observableArray([]),
+				ListFuUnits:ko.observableArray([]),
+				ListAttrImgs:ko.observableArray([]),
+				ListSelCatePID:ko.observableArray([]),
+				AttrGoods:ko.observable({Enable:true}),
+				AttrSelLom:ko.observable({}),
+				AttrSelBrand:ko.observable({}),
+				AttrSelUnits:ko.observable({}),
+				AttrMainImg:ko.observable({imgdata:ko.observable('')}),
+				ABVAdd:ko.observable({}),
+				AttrQRCode:ko.observable({})
+			};
+			this.CtrlView={
+				AttrIsEdit:ko.observable(false),
+				AttrShowBrandView:ko.observable(false),
+				AttrShowLomView:ko.observable(false),
+				AttrShowUnitsView:ko.observable(false),
+				AttrGoodsEnableView:ko.observable(0)
+			};
+			/**FuncGetUnits
+			*获取单位组列表
+			*/
+			this.FuncGetUnits=function(params,callback){
+				params.sort="GroupID";
+				this.FuncCommonList("unit",0,this.CtrlConf.AttrUnitsLimit,params,function(data){
+					if($.type(callback)=="function"){
+						callback(data);
+					}else{
+						this.CtrlData.ListUnits(data);
+					}
+				}.bind(this))
+			};
+			/**FuncSendSaveCallback
+			*提供给上层页面的保存状态回调
+			*@return {id:类目id}
+			*/
+			this.FuncSendSaveCallback=function(){}.bind(this);
+			/**FuncAttrSelLomInterface
+			*提供给属性页面的回调
+			*@return {id:类目id}
+			*/
+			this.FuncAttrSelLomInterface=function(id){}.bind(this);
+			/**FuncSkuSelLomInterface
+			*提供给属性页面的回调
+			*@return {id:类目id}
+			*/
+			this.FuncSkuSelLomInterface=function(id){}.bind(this);
+			/**FuncSkuSelUnitInterface
+			*提供给SKU页面的选择属性接口
+			*/
+			this.FuncSkuSelUnitInterface=function(data){}.bind(this);
+			/**FuncGetAttrsInterface
+			*获取属性页面结果的接口
+			*/
+			this.FuncGetAttrsInterface=function(){}.bind(this);
+			
+			this.FuncEditAttrInterface=function(){}.bind(this);
+			/**FuncGetSkusInterface
+			*获取Sku页面结果的接口
+			*/
+			this.FuncGetSkusInterface=function(){}.bind(this);
+			/**FuncSkuAddFuUnitsInterface
+			*提供给下层页面的接口
+			*/
+			this.FuncSkuFuUnitsInterface=function(data){}.bind(this);
+			/**FuncSKUEditInitInterface
+			*提供给下层SKU页面的编辑接口
+			*/
+			this.FuncSKUEditInitInterface=function(data){}.bind(this);
+			/**FuncAttrEditInitInterface
+			*下层属性编辑接口
+			*/
+			this.FuncAttrEditInitInterface=function(data){}.bind(this);
+			/**FuncEditInterface
+			*提供给上层页面的编辑接口
+			*/
+			this.FuncEditInterface=function(data){
+				if(data==undefined||data.GoodsID==undefined){
+					this.FuncPrint(false,'FuncEditInterface','商品编辑接口对接时错误，当前获取到数据为：'+data);
+					return
+				}
+				this.CtrlView.AttrIsEdit(true);
+				var goodsparams={};
+				goodsparams.filter=JSON.stringify([{'id__exact':data.GoodsID}]);
+				this.FuncGetGoods(goodsparams,0,function(data){				
+					this.FuncEditDataInit(data.data[0]);
+				}.bind(this))
+			}.bind(this);
+			/**FuncEditDataInit
+			*编辑数据初始化
+			*@param data:{}
+			*/
+			this.FuncEditDataInit=function(data){
+				var c = this.CtrlData;
+				var v = this.CtrlView;
+				c.AttrGoods(data);
+				c.AttrSelLom(data.CategoryID);
+				c.AttrSelBrand(data.BrandID);
+				c.AttrSelUnits(data.UnitID);
+				try{
+				var fulist = [];
+				if(data.MultiUnit!=undefined){
+					fulist = JSON.parse(data.MultiUnit);	
+				}
+				$.each(fulist,function(k,item){
+					var obj={	
+							attr:item.attr,
+							attrs:ko.observableArray(item.attrs),
+							sel:ko.observable(item.sel),
+							show:ko.observable(0)
+						}
+					c.ListFuUnits.push(obj);
+				})
+				}catch(e){console.log(e)}
+				v.AttrGoodsEnableView(data.Enable?0:1);
+				var imglist = [];
+				this.CtrlData.AttrMainImg({imgdata:ko.observable('')});
+				$.each(data.GoodsPicture,function(k,v){
+					var obj = {};
+					obj.imgdata = ko.observable("url('/{{.CurVersion}}/store/goods/img?id="+v.Picture+"')")
+					obj.isedit = true;
+					obj.ID=v.ID;
+					if(v.IsMain){
+						if(this.CtrlData.AttrMainImg().ID){//如果有多张主图，只保留最后一张
+							this.CtrlData.ListRemoveImg.push(this.CtrlData.AttrMainImg().ID);
+						}
+						this.CtrlData.AttrMainImg(obj);
+						return true;
+					}
+					imglist.push(obj);
+				}.bind(this));
+				this.CtrlData.ListImgs(imglist);
+				var attrparams={LomID:data.CategoryID,GoodsID:data.ID,Goods:data}
+				var that = this;
+				try{
+					$.when(this.AttrDtd.DtdAttr).done(function(){
+						that.FuncAttrEditInitInterface(attrparams);
+					});
+					$.when(this.AttrDtd.DtdSku).done(function(){
+						that.FuncSKUEditInitInterface(attrparams);
+					});
+				}catch(e){console.log(e)}
+			}.bind(this)
+			/*FuncGetGoods
+			*获取商品列表
+			*@param params:参数
+			*@param skip:跳过页数
+			*/
+			this.FuncGetGoods=function(params,skip,callback){
+				var url="/common/queryfilter/entity/goods/"+skip+"/"+this.CtrlConf.AttrGoodsLimit;
+				params.sort="-CreateDate";
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						if($.type(callback)=="function"){
+							callback(data);
+						}
+					}else if(data.error!=undefined&&data.error.length>0){
+						this.FuncPrint(true,url,data.error);
+					}
+				}.bind(this));
+			};
+			/**FuncGetBrand
+			*获取品牌列表
+			*@params 需过滤参数
+			*/
+			this.FuncGetBrand=function(params,callback){
+				this.FuncCommonList("brand",0,this.CtrlConf.AttrBrandLimit,params,function(data){
+					if($.type(callback)=="function"){
+						callback(data);
+					}else{
+						this.CtrlData.ListBrand(data);	
+					}
+				}.bind(this))
+			};
+			
+			/*FuncCommonList
+			*通用的获取列表方法|底层方法
+			*@param struct:单据名称
+			*@param skip:跳过条数
+			*@param limit:查询条数
+			*@param params:传参
+			*@param callback:回调函数
+			*/
+			this.FuncCommonList=function(struct,skip,limit,params,callback){
+				if(struct.length<1){this.FuncPrint(false,"通用查询","无法获取到单据名");return}
+				if(isNaN(skip)||skip<0){skip=0;}
+				if(isNaN(limit)||limit<1){limit=20;}
+				var url="/common/querynoauth/"+struct+"/"+skip+"/"+limit;
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						if($.type(callback)=="function"){
+							callback(data.data)
+						}
+					}else if(data.error!=undefined&&data.error.length>0){
+						this.FuncPrint(true,struct,data.error);
+					}
+				}.bind(this));
+			};
+			this.FucnGetCategoryChild=function(data,list){
+				list.push(data.ID);
+				if(data.Child&&data.Child.ID){
+					this.FucnGetCategoryChild(data.Child,list);
+				}
+				return list
+			};
+			/**FuncLomTree
+			*加载类目树插件
+			*@todo 过滤参数的生成方法可以改进
+			*/
+			this.FuncLomTree=function(){
+				var that =this;
+				$('#'+this.CtrlTemp.CtrlLomID).categorytree({
+					sets:parseInt('00000111',2),
+					enable:true,
+					onsel:function(data){
+						if(data.Children!=undefined){
+							tone.views.FuncAddTip("只能选定最后一级类目");
+							return
+						}
+						if(data.ID!=undefined){
+							that.CtrlData.AttrSelLom(data);
+							that.CtrlView.AttrShowLomView(false);
+							var params={};
+							try{
+							if(data.Data!=undefined){
+								var q = JSON.parse(data.Data);
+								var list = [];
+								if(q.Category!=undefined){
+									list.push(q.Category.ID);
+								}
+								if(q.Category!=undefined&&q.Category.Child!=undefined){
+									params.categoryidforcolor = q.Category.Child.ID;//为了给新增颜色用
+								}
+
+								if(q.Category.Child&&q.Category.Child.ID){
+									that.FucnGetCategoryChild(q.Category.Child,list);
+								}
+								that.CtrlData.ListSelCatePID(list);
+								params.categoryid=list.join("','");
+								params.categoryid="'"+params.categoryid+"'"
+								
+							}}catch(e){console.log("选中类目处理",e)}
+							that.FuncAttrSelLomInterface(params.categoryid,function(){
+								//取该类目上次保存的属性,写到属性中
+								tone.ajaxJson('/store/goods/getrecordattribute',{categoryid:data.ID},'get',function(data){
+									if(data.success!=undefined&&data.success==true){
+											that.FuncSetAttrInterface(data.data);
+										}else{
+										}
+								}.bind(this));
+							},1);
+							that.FuncSkuSelLomInterface(params);
+						}
+					}
+				});
+			}.bind(this);
+			/**FuncClearData
+			*清空数据
+			*/
+			this.FuncClearData=function(){
+				var data = this.CtrlData;
+				var view = this.CtrlView;
+				data.ListBrand([]);
+				data.ListUnits([]);
+				data.ListImgs([]);
+				data.ListFuUnits([]);
+				data.AttrGoods({Enable:true});
+				data.AttrSelLom({});
+				data.AttrSelBrand();
+				data.AttrSelUnits();
+				view.AttrIsEdit(false);
+				data.ListRemoveImg([]);
+			};
+			/**FuncGetAttrHtml
+			*加载属性页面
+			*/
+			this.FuncGetAttrHtml=function(dtd){
+				var that =this;
+				var url = '/t1yun/manage1/store/goods/goodsSetAttr'
+				this.FuncCommonGetHtml(url,function(data){
+					var ctrl=$('#'+this.CtrlTemp.CtrlAttrID);
+					ctrl.html(data);
+					var module = ko.contextFor(ctrl.children('div')[0]).$root;
+					this.FuncAttrSelLomInterface=module.FuncGetAttr;
+					this.FuncGetAttrsInterface=module.FuncMakeCommitData;
+					this.FuncAttrEditInitInterface=module.FuncInitInterface;
+					this.FuncEditAttrInterface=module.FuncEditAttr;
+					this.FuncSetAttrInterface=module.FuncSetAttr;
+					this.FuncAttrSelCategoryInterface=module.FuncGetCategory;
+					try{
+						dtd.resolve();
+					}catch(e){console.log(e);}
+				}.bind(this))
+			};
+			/**FuncGetSkuHtml
+			*加载属性页面
+			*/
+			this.FuncGetSkuHtml=function(dtd){
+				var that =this;
+				var url = '/t1yun/manage1/store/goods/goodsSetInfo'
+				this.FuncCommonGetHtml(url,function(data){
+					var ctrl=$('#'+this.CtrlTemp.CtrlSkuID);
+					ctrl.html(data);
+					var module = ko.contextFor(ctrl.children('div')[0]).$root;
+					this.FuncSkuSelLomInterface=module.FuncSelLomInterface;
+					this.FuncSkuSelUnitInterface=module.FuncSelUnitInterface;
+					this.FuncSkuFuUnitsInterface=module.FuncSelFuUnitInterface;
+					this.FuncGetSkusInterface=module.FuncSendDataInterface;
+					this.FuncSKUEditInitInterface=module.FuncEditInterface;
+					try{
+						dtd.resolve();
+					}catch(e){console.log(e);}
+				}.bind(this))
+			};
+			/**FuncCommonGetHtml
+			*通用的加载页面方法
+			*@param url:访问地址
+			*@param callback:执行成功后的回调
+			*/
+			this.FuncCommonGetHtml=function(url,callback){
+				var that = this;
+				tone.func.get(url,function(data){
+					try{
+						if($.type(callback)=="function"){
+							callback(data);
+						}
+					}catch(e){that.FuncPrint(true,"FuncCommonGetHtml",e)}
+				}.bind(this));
+			};
+			/**FuncPrint
+			*DEBUG信息
+			*@param isdispaly:是否将错误进行提示
+			*@param name:方法名称
+			*@param error:错误信息
+			*/
+			this.FuncPrint=function(isdisplay,name,error){
+				var str="[ERROR]:at get "+name+" error is:"+error;
+				if(!isdisplay){
+					console.log(str);
+				}else{
+					tone.views.FuncAddTip(error);
+					console.log(str);
+				}
+			};
+			/**FuncCheckGoodsParams
+			*检查用户输入数据的合法性
+			*@return bool 
+			*/
+			this.FuncCheckGoodsParams=function(){
+				var goods = {};
+				var getdata = this.FuncGetSkusInterface();
+				goods.Code=this.CtrlData.AttrGoods().Code;
+				goods.Name=this.CtrlData.AttrGoods().Name;
+				goods.Description=this.CtrlData.AttrGoods().Description;
+				goods.Enable=this.CtrlData.AttrGoods().Enable;
+				if(this.CtrlData.AttrGoods().ID!=undefined){
+					goods.ID=this.CtrlData.AttrGoods().ID;
+				}
+				var err = [];
+				if(goods.Code!=undefined){
+					//todo 数据类型和长度判断
+				}else{
+					err.push('商品编号不能为空');
+				}
+				if(goods.Name==undefined||goods.Name==''){
+					//todo 数据类型和长度判断
+					err.push('商品名称不能为空');
+				}else{
+					
+				}
+				if(goods.Description==undefined){
+					goods.Description='';
+				}
+				if(this.CtrlData.AttrSelLom().ID!=undefined){
+					goods.CategoryID=this.CtrlData.AttrSelLom().ID;
+				}else{
+					err.push('请为商品指定所属类目');
+				}
+				if(this.CtrlData.AttrSelUnits().ID!=undefined){
+					goods.UnitID=this.CtrlData.AttrSelUnits().ID;
+				}else{
+					err.push('请为商品选择单位');
+				}
+				if(this.CtrlData.AttrSelBrand().ID!=undefined){
+					goods.BrandID=this.CtrlData.AttrSelBrand().ID;
+				}else{
+					err.push('请为商品指定所属品牌')
+				}
+				if(this.CtrlData.ListFuUnits().length>0){
+					var list = [];
+					$.each(this.CtrlData.ListFuUnits(),function(k,v){
+						var p={	
+								attr:v.attr,
+								attrs:v.attrs(),
+								sel:v.sel()
+							}
+						list.push(p);
+					})
+					goods.MultiUnit=JSON.stringify(list);
+				}else{
+					goods.MultiUnit='[]';
+				}
+				var isnull = false;
+				if(getdata.list!=undefined){
+				$.each(getdata.list,function(k,v){
+					if(v.Code.length<1){
+						isnull = true;
+					}
+				})
+				}else{
+					err.push('请为商品指定所属规格');
+				}
+				if(isnull){
+					err.push('单品编号不能为空或重复');
+				}
+				if(err.length>0){
+					var str = err.join(",")
+				//	console.log("fhdhfhh",str)
+					this.FuncPrint(true,'FuncCheckGoodsParams',str)
+					return false
+				}
+				this.CtrlData.AttrGoods(goods);
+				return true
+			};
+			/**FuncMakeGoodsParams
+			*生成保存商品所需要的参数
+			*@return {}
+			*/
+			this.FuncMakeGoodsParams=function(){
+				var getdata = this.FuncGetSkusInterface()
+				var goods = this.CtrlData.AttrGoods();
+				var params = {Goods:goods};
+				var sku = this.FuncGetAttrsInterface();
+				var spu = getdata.list;
+				var skulist = [];
+				var spulist = [];
+				this.CtrlData.ListAttrImgs(getdata.imgs);
+				$.each(sku,function(k,v){
+					var attrsvalue = {};
+					attrsvalue.AttributeNameID = v.NameID;
+					attrsvalue.IsSKU=false;
+					if(v.ValueID!=undefined){
+						attrsvalue.AttributeValueID=v.ValueID.ID;
+					}else if(v.ValueID==undefined&&v.Value!=undefined){
+						attrsvalue.InputValue=v.Value;
+					}else if($.isArray(v.Values)){
+						attrsvalue.MultiValue=JSON.stringify(v.Values);
+					}
+					skulist.push(attrsvalue);
+				})
+				var goodssku = [];
+				var that = this;
+				$.each(spu,function(k,v){
+					console.log("goodsset  spu==",v)
+					var sku = {};
+					if(v.ID==undefined){
+						sku.ID=tone.sys.objectId();
+					}else{
+						sku.ID=v.ID
+					}
+					//sku.ID=v.ID
+					console.log("sku.id",sku.ID)
+					sku.GoodsPictureID=v.GoodsPictureID
+					sku.Count=v.Count;
+					sku.Price=v.Price;
+					sku.BarCode=v.BarCode;
+					sku.UnitID=v.Unit.ID;
+					sku.BuyingPrice=v.BuyingPrice;
+					sku.Code=v.Code;
+					sku.Specifications=v.Specifications;
+					sku.Name = goods.Name;
+					sku.Enable = true;
+					if(that.CtrlData.AttrQRCode()!=undefined){
+						if(that.CtrlData.AttrQRCode().Status==1){
+							sku.QRCode = v.Code;
+						}
+						if(that.CtrlData.AttrQRCode().Status==2){
+							sku.QRCode = sku.ID;
+						}
+						if(that.CtrlData.AttrQRCode().Status==3){
+							sku.QRCode = v.BarCode;
+						}
+						if(that.CtrlData.AttrQRCode().Status==4){
+							
+							var tmp = JSON.parse(that.CtrlData.AttrQRCode().Json)
+							if(tmp.Status==1&&tmp.Reverse==false){
+								sku.QRCode = tmp.InputValue+v.Code;
+							}
+							if(tmp.Status==1&&tmp.Reverse==true){
+								sku.QRCode = v.Code+tmp.InputValue;
+							}
+							if(tmp.Status==2&&tmp.Reverse==false){
+								sku.QRCode = tmp.InputValue+sku.ID;
+							}
+							if(tmp.Status==2&&tmp.Reverse==true){
+								sku.QRCode = sku.ID+tmp.InputValue;
+							}
+							if(tmp.Status==3&&tmp.Reverse==false){
+								sku.QRCode = tmp.InputValue+v.BarCode;
+							}
+							if(tmp.Status==3&&tmp.Reverse==true){
+								sku.QRCode = v.BarCode+tmp.InputValue;
+							}
+						}
+					}
+					
+
+					var str=[];
+					$.each(v.Attr,function(i,j){
+						var attrsvalue = {};
+						attrsvalue.AttributeNameID = j.NameID;
+						attrsvalue.IsSKU=true;
+						attrsvalue.SKUID=sku.ID;
+						str.push(j.Name);
+						attrsvalue.AttributeValueID=j.ID;
+						spulist.push(attrsvalue);
+					})
+					sku.Attributes=str.join(",");			
+					goodssku.push(sku);
+				})
+				var imglist = []
+				if(this.CtrlData.ListImgs()!=undefined&&this.CtrlData.ListImgs().length>0){
+					$.each(this.CtrlData.ListImgs(),function(k,v){
+						var img = {};
+						img.Picture=v.Picture;
+						img.IsMain=v.IsMain;
+						imglist.push(img);
+					})
+				}
+				params.GoodsSKU=goodssku;
+				params.GoodsAttributes=$.merge(skulist,spulist);
+			//	params.GoodsPicture=imglist;
+			
+				return params;
+			}.bind(this);
+			
+			/**FuncSaveGoods
+			*保存商品方法
+			*@param params:商品对象
+			*@param callback:保存成功后的回调
+			*/
+			this.FuncSaveGoods=function(params,callback){
+				console.log("this.CtrlView.AttrIsEdit()",this.CtrlView.AttrIsEdit())
+				var url = '';
+				if(this.CtrlView.AttrIsEdit()){
+					url = '/common/update/entity/Goods/'+this.CtrlData.AttrGoods().ID;
+				}else{
+					url = '/common/create/entity/Goods';	
+				}
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+							if($.type(callback)=="function"){
+								if(this.CtrlView.AttrIsEdit()){
+									var temp=JSON.parse(params.data)
+									temp.GoodsAttributes=JSON.stringify(temp.GoodsAttributes)
+									temp.GoodsSKU=JSON.stringify(temp.GoodsSKU)
+									callback(temp)
+								}else{
+								callback(data.data);
+								}
+							}
+						}else{
+							this.FuncPrint(true,'FuncSaveGoods','保存失败:'+data.msg)
+						}
+				}.bind(this));
+			};
+			/**FuncAfterSaveGoods
+			*商品保存后方法
+			*@param goods:商品保存后返回的商品对象
+			*/
+			this.FuncAfterSaveGoods=function(goods){
+				var temp={}
+				var id = '';
+				if(goods==undefined||goods.Goods==undefined){
+					id=this.CtrlData.AttrGoods().ID;
+				}else{
+					id=goods.Goods.ID;
+					temp=JSON.parse(goods.GoodsSKU)
+				}
+				try{
+					if(goods==undefined||goods.Goods==undefined){
+						this.FuncMakeAttrAndPicture(id);
+					}else{//如果是新增操作
+						this.FuncMakeAttrAndPicture(id,temp);
+						this.FuncInitPrice(id,temp)//初始化价格表
+					}
+				}catch(e){console.log(e)}
+				if(this.CtrlData.ListRemoveImg().length>0){
+					var params={id:this.CtrlData.ListRemoveImg().join(",")}
+					this.FuncRemoveImg(params);
+				}
+				this.FuncClearData();
+			};
+			/*初始化价格表 by lzl*/
+			this.FuncInitPrice=function(id,goodssku){
+				this.FuncGetPriceList(id,function(data){
+					var status=data.length
+					if(status>0){
+						var list=[];
+						$.each(data,function(k,v){
+							$.each(goodssku,function(m,n){
+								if(n.ID==v.SKUID.ID){
+									var params={};
+									params.ID=v.ID
+									params.SKUID=n.ID
+									params.RetailPrice=n.Price
+									params.Price=n.BuyingPrice
+									list.push(params)
+								}
+							}.bind(this))
+						}.bind(this))
+						this.FuncAddPrice(2,list,function(){
+							console.log("ok");
+						}.bind(this))
+					}else{
+						var list=[]
+						$.each(goodssku,function(k,v){
+							var params={};
+							params.ID=v.ID
+							params.SKUID=v.ID
+							params.RetailPrice=v.Price
+							params.Price=v.BuyingPrice
+							list.push(params)
+						}.bind(this))
+						this.FuncAddPrice(0,list,function(){
+							console.log("ok");
+						}.bind(this))
+					}
+				}.bind(this))
+			};
+			/*价格表新增和编辑 bylzl*/
+			this.FuncAddPrice=function(status,params,callback){
+				if(status==0){
+					var url="/common/batchcreate/goodsprice"
+					tone.ajaxJson(url,{data:JSON.stringify(params)},'post',function(data){
+						if(data.success!=undefined&&data.success==true){
+							callback()
+						}
+					}.bind(this));
+				}else if(status>0){
+					console.log("params",params);
+					$.each(params,function(k,v){
+						console.log(k,v)
+						 var url="/common/update/goodsprice/"+v.ID
+						tone.ajaxJson(url,{SKUID:v.SKUID,Price:v.Price,RetailPrice:v.RetailPrice},'post',function(data){
+							if(data.success!=undefined&&data.success==true){
+								callback()
+							}
+						}.bind(this));
+					}.bind(this))
+						
+				}
+					
+			}
+			/*获取价格列表 by lzl*/
+			this.FuncGetPriceList = function(goodsid,callback){
+				var url="/common/queryfilter/goodsprice/0/100"
+				tone.ajaxJson(url,{'filter':'[{"t1.goodsid__exact":"'+goodsid+'"}]'},'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						callback(data.data)
+					}
+				}.bind(this));
+			}
+			/*处理SKU保存后事情*/
+			this.FuncMakeAttrAndPicture=function(id,temp){
+				console.log("处理SKU保存后事情==",id,temp)
+				var imglist = [];
+				var attrimgs = [];
+				var removelist = [];
+				if(this.CtrlData.AttrMainImg().Picture!=undefined){
+					this.CtrlData.ListImgs().push(this.CtrlData.AttrMainImg());
+				}
+				$.each(this.CtrlData.ListImgs(),function(k,v){
+					if(v.isedit!=undefined&&v.isedit){
+						return true;
+					}
+					var p ={
+							ImgData:v.Picture,
+							IsMain:v.IsMain,
+							GoodsID:id,
+					}
+					imglist.push(p);
+				})
+				$.each(this.CtrlData.ListAttrImgs(),function(k,v){
+					if(v.ImgData==undefined)return;
+					//如果不是新增
+					if(temp==undefined){
+						var p = {
+								ImgData:v.ImgData,
+								IsMain:false,
+								GoodsID:id,
+								AttributeValueID:v.ID
+						}
+						attrimgs.push(p);
+						if(v.IsEdit){
+							removelist.push(v.PictureID);
+						}
+					}else{
+						var p = {
+								ImgData:v.ImgData,
+								IsMain:false,
+								GoodsID:id,
+								GoodsSKU:temp[k].ID,//by lzl 2016/10/20 for get goodsku 
+								AttributeValueID:v.ID
+						}
+						attrimgs.push(p);
+						if(v.IsEdit){
+							removelist.push(v.PictureID);
+						}
+					}
+					
+				});
+				if(removelist.length>0){
+					var params={id:removelist.join(",")}
+					this.FuncRemoveImg(params);
+				}
+				$.each(imglist,function(k,v){
+					this.FuncSaveImg(v);
+				}.bind(this))
+				if(attrimgs.length>0){
+					$.each(attrimgs,function(k,v){
+						//by lzl 2016/10/20 for save pic in goodssku
+						this.FuncSaveImg(v,function(data){
+							if(v.GoodsSKU==undefined){
+								
+							}else{
+								/* console.log("GoodsSKUID",v.GoodsSKU)
+								console.log("PICID",data.data) */
+								var params={};
+								params.GoodsPictureID=data.data
+								this.FuncUpdateSkuPic(v.GoodsSKU,params,function(){
+									console.log(k,"save pic in sku ok")
+								}.bind(this))
+							}
+							
+						}.bind(this));
+						//==
+					}.bind(this))
+				}
+			}
+			/**FuncUpdateSkuPic  by lzl 2016/10/20
+			*保存图片ID给SKU
+			*@param id:skuid
+			*@param params:参数
+			*@param callback:回调
+			*/
+			this.FuncUpdateSkuPic=function(id,params,callback){
+				var url = "/common/update/goodssku/"+id;
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						callback()
+					}
+				}.bind(this));
+			}
+			/**FuncSaveImg
+			*保存图片
+			*@param params:参数
+			*@param callback:回调
+			*/
+			this.FuncSaveImg=function(params,callback){
+				var url = "/store/goods/createimg";
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						if(data.data!=undefined){
+							callback(data);
+						}else{
+							tone.views.FuncAddTip(data.error);
+						}
+					}
+				}.bind(this));
+			}
+			/**FuncReSelFuUnits
+			*
+			*/
+			this.FuncReSelFuUnits=function(){
+				var data = this.CtrlData.ListFuUnits();
+				var list = [];
+				$.each(data,function(k,v){
+					list.push(v.sel());
+				})
+				this.FuncSkuFuUnitsInterface(list);
+			}.bind(this);
+			/**FuncRemoveImg
+			*删除图片
+			*/
+			this.FuncRemoveImg=function(params,callback){
+				var url="/common/del/goodspicture"
+				tone.ajaxJson(url,params,'get',function(data){
+					if(data.success!=undefined&&data.success==true){
+						if(data.data!=undefined){
+							callback(data);
+						}else{
+							tone.views.FuncAddTip(data.error);
+						}
+					}
+				}.bind(this));
+			}
+			/*删除图片事件*/
+			this.EventRemoveImg=function(m,e){
+				this.CtrlData.ListRemoveImg().push(m.ID);
+				this.CtrlData.ListImgs.remove(m);
+			}.bind(this);
+			/*副单位视图控制-删除副单位*/
+			this.EventRemoveFuAttr=function(m,e){
+				this.CtrlData.ListFuUnits.remove(m);
+				this.FuncReSelFuUnits();
+			}.bind(this);
+			/*副单位视图控制-选择副单位*/
+			this.EventSelFuAttr=function(m,e,parent){
+				parent.sel(m);
+				parent.show(0);
+				this.FuncReSelFuUnits();
+			}.bind(this);
+			/*增加副单位*/
+			this.EventAddFuUnit=function(){
+				var sel = this.CtrlData.AttrSelUnits();
+				if(sel.ID==undefined){return}
+				var params={}
+				if(sel.GroupID.ID!=undefined){
+					params.filter=JSON.stringify([{"groupid__exact":sel.GroupID.ID}]);
+				}else{
+					params.filter=JSON.stringify([{"groupid__exact":sel.GroupID}]);
+				}
+				this.FuncGetUnits(params,function(data){
+					var list = this.CtrlData.ListFuUnits();
+					var attr={
+							attr:sel,
+							attrs:ko.observableArray(data),
+							sel:ko.observable({}),
+							show:ko.observable(0),
+					}
+					list.push(attr);
+					this.CtrlData.ListFuUnits(list);
+				}.bind(this));
+			};
+			/*展示副单位某一天的下拉框控制*/
+			this.EventShowFuAttr=function(m,e){
+				m.show(m.show()==1?0:1);
+			}.bind(this);
+			/*保存商品*/
+			this.EventSave=function(){
+				this.FuncGetQRCodeStrategyRelated(function(data){
+					this.CtrlData.AttrQRCode(data[0])
+					if(this.CtrlData.AttrQRCode()==undefined){
+						this.FuncPrint(true,'FuncSaveGoods','请先回商品列表页设置二维码规则')
+						return;
+					}
+					if(!this.FuncCheckGoodsParams()){
+						return
+					}
+					var params={}
+					try{
+					params.data = JSON.stringify(this.FuncMakeGoodsParams());
+					console.log("params===",this.FuncMakeGoodsParams())
+					}catch(e){console.log(e)}
+					this.FuncSaveGoods(params,function(data){
+						this.FuncSendSaveCallback();
+						try{
+						this.FuncAfterSaveGoods(data);
+						}catch(e){console.log(e)}
+					}.bind(this))
+				}.bind(this));
+				
+			};
+			/*图片上传*/
+			this.EventUploadImg=function(m,e){
+				var files=$(e.target)[0].files;
+				if(files.length<1){
+					this.FuncPrint(true,'',"请选择要导入的图片");
+					return;
+				}
+				if(files.length>6){
+					this.FuncPrint(true,'',"图片不能超过6张");
+					return;
+				}
+				$.each(files,function(k,v){
+					tone.sys.img_inflate1(v,function(data){
+						if(data.code==1){
+							var imgdata=data.data;
+							this.CtrlData.ListImgs.push({Picture:imgdata.split(",")[1],IsMain:false,imgdata:ko.observable("url('"+imgdata+"')")});								
+						}
+					}.bind(this),800);
+				}.bind(this))
+			}.bind(this);
+			/*主图上传*/
+			this.EventUploadMainImg=function(m,e){
+				tone.sys.img_inflate($(e.target),function(data){
+					if(data.length<1){
+						return
+					}
+					//var list = this.CtrlData.ListImgs();
+					this.CtrlData.ListRemoveImg.push(this.CtrlData.AttrMainImg().ID);
+					var imgdata=data;
+					this.CtrlData.AttrMainImg({Picture:imgdata.split(",")[1],IsMain:true,imgdata:ko.observable("url('"+imgdata+"')")});
+				}.bind(this),800);
+			}.bind(this);
+			/*点击图片上传按钮事件*/
+			this.EventAddUploadImg=function(){
+				$('#'+this.CtrlTemp.CtrlImgID).click();
+			};
+			/*选择单位*/
+			this.EventSelUnits=function(m,e){
+				this.CtrlData.AttrSelUnits(m);
+				this.CtrlView.AttrShowUnitsView(false);
+				this.FuncSkuSelUnitInterface(m);
+			}.bind(this);
+			/*选择品牌*/
+			this.EventSelBrand=function(m,e){
+				this.CtrlData.AttrSelBrand(m);
+				this.CtrlView.AttrShowBrandView(false);
+			}.bind(this);
+			/*商品上下架切换事件*/
+			this.EventSwitchEnable=function(m,e){
+				var num = $(e.target).attr("data-type");
+				if(num==0){
+					this.CtrlData.AttrGoods().Enable=true;
+					this.CtrlView.AttrGoodsEnableView(0);
+				}else{
+					this.CtrlData.AttrGoods().Enable=false;
+					this.CtrlView.AttrGoodsEnableView(1);
+				}
+			};
+		
+			//提交数据到数据库存储函数
+			this.FuncSave=function(struct,params,callback){
+				var url="/common/create/"+struct;
+				tone.ajaxJson(url,params,'post',function(data){
+					if(data.success!=undefined&&data.success==true){
+						if($.type(callback)=="function"){
+							callback(data.data)
+						}
+					}else if(data.error!=undefined&&data.error.length>0){
+						tone.views.FuncAddTip(data.error);
+					}
+				}.bind(this));
+			}
+			
+			//获取二维码生成规则
+			this.FuncGetQRCodeStrategyRelated = function(callback){
+				tone.ajaxJson('/common/queryfilter/qrcodestrategyrelated/0/20',{'sort':'CreateDate','filter':'[{"enable__exact":true}]'},"post",function(data){
+					if(data.success!=undefined&&data.success==true){
+						//this.CtrlData.AttrQRCode(data.data[0])
+						if($.type(callback)=="function"){
+							callback(data.data);
+						}
+					}else{
+						tone.views.FuncAddTip(data.error);
+					}
+				}.bind(this));
+			}.bind(this);
+
+
+			
+			this.Views=function(){
+				this.FuncLomTree();
+				this.FuncGetBrand({filter:JSON.stringify([{"indexid__in":'\'\',\''+tone.views.AttrUser().CompanyID+'\''},{"status__exact":"2"},{"Enablestatus__exact":"1"}])});
+
+				this.FuncGetUnits({});
+				this.FuncGetAttrHtml(this.AttrDtd.DtdAttr);
+				this.FuncGetSkuHtml(this.AttrDtd.DtdSku);
+			};
+			this.Binding=function(ctrl){
+				ko.applyBindings(this,ctrl);
+				this.Views();
+			};
+			
+		}
+		try{
+			var module_manage1_store_goods_set = new Module_Manage1_Store_Goods_Set()
+			module_manage1_store_goods_set.Binding(ctrl[0]);
+		}catch(e){console.log(e)}
+	//})
+		
+	</script>
+</div>
